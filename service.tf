@@ -65,6 +65,28 @@ resource "google_cloud_run_service" "service" {
             }
           }
         }
+
+        dynamic "startup_probe" {
+          for_each = local.healthcheck_endpoint != null ? ["probe"] : []
+          iterator = probe
+
+          content {
+            http_get {
+              path = local.healthcheck_endpoint
+            }
+          }
+        }
+
+        dynamic "liveness_probe" {
+          for_each = local.healthcheck_endpoint != null ? ["probe"] : []
+          iterator = probe
+
+          content {
+            http_get {
+              path = local.healthcheck_endpoint
+            }
+          }
+        }
       }
 
       timeout_seconds       = local.timeout

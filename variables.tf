@@ -105,6 +105,12 @@ variable "request_concurrency" {
   default     = null
 }
 
+variable "healthcheck_endpoint" {
+  type        = string
+  description = "The endpoint to check to determine whether the container is healthy. Defaults to `/health`. Can be set to `null` to disable health checks."
+  default     = "/health"
+}
+
 variable "enable_public_http_endpoints" {
   type        = bool
   description = "Whether the service should be accessible publicly (possibly behind a load balancer). This sets the output `public_http_endpoints`."

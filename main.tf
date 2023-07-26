@@ -51,6 +51,7 @@ locals {
   cpu_always_allocated = coalesce(var.cpu_always_allocated, local.conf_cpu_always_allocated, false)
   timeout              = try(coalesce(var.timeout, local.conf_timeout), null)
   request_concurrency  = try(coalesce(var.request_concurrency, local.conf_request_concurrency), null)
+  healthcheck_endpoint = var.healthcheck_endpoint
   environment_variables = merge(
     local.pubsub_environment_variables,
     local.spanner_environment_variables,
