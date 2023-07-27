@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.0 (2023-07-27)
+
 Features:
 
 - Set the default HTTP healthcheck to `/health` and expose the `healthcheck_endpoint` variable.
