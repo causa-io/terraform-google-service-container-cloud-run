@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Features:
+
+- Define the `spanner_ddl_dependency` variable to facilitate expressing dependency on a Spanner database.
+
+Fixes:
+
+- Set missing project ID in Cloud Run permissions.
+
 ## v0.2.0 (2023-07-27)
 
 Features:
