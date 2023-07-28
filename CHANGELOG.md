@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.3.0 (2023-07-28)
+
 Features:
 
 - Define the `spanner_ddl_dependency` variable to facilitate expressing dependency on a Spanner database.
