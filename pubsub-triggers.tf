@@ -44,6 +44,7 @@ resource "google_service_account" "pubsub_trigger_invoker" {
 resource "google_cloud_run_service_iam_member" "pubsub_trigger_invoker" {
   count = length(local.pubsub_triggers) > 0 ? 1 : 0
 
+  project  = local.gcp_project_id
   service  = google_cloud_run_service.service.name
   location = google_cloud_run_service.service.location
   role     = "roles/run.invoker"
