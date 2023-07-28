@@ -120,6 +120,7 @@ resource "google_cloud_run_service" "service" {
   }
 
   depends_on = [
+    var.spanner_ddl_dependency,
     google_spanner_database_iam_member.service_spanner,
     google_pubsub_topic_iam_member.service_pubsub_publisher,
     google_project_iam_member.service_firestore_user,
