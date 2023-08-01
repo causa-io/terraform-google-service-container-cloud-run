@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.4.0 (2023-08-01)
+
 Breaking changes:
 
 - If a `service_account_email` is provided, it should now be passed as a `service_account` object.
