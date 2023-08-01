@@ -15,8 +15,14 @@ variable "name" {
   default     = null
 }
 
-variable "service_account_email" {
-  type        = string
+variable "service_account" {
+  // Using an object allows to differentiate between the default `null` value and an email that would be passed, even at
+  // plan time. If the service account email references a service account resource that hasn't been created yet, the
+  // `email` value is unknown, and making `google_service_account.service` depend on it for its count would fail.
+  // Testing whether the object is `null` can be made at plan time, without knowing the actual value of `email`.
+  type = object({
+    email = string
+  })
   description = "The email of the service account the container has access to. By default, a new service account is created."
   default     = null
 }
