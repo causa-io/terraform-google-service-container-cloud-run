@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Simplify `pubsub_topic_ids` expression to allow Terraform to detect minimal dependencies.
+
 ## v0.4.0 (2023-08-01)
 
 Breaking changes:
