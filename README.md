@@ -37,6 +37,7 @@ Based on the `causa.yaml` configuration, this module can also manage required pe
 - Read and write access to Firestore (if at least one collection is listed in `serviceContainer.outputs.['google.firestore']`).
 - Publisher permissions to Pub/Sub topics listed in `serviceContainer.outputs.eventTopics`.
 - Read and write access to Spanner databases listed in `serviceContainer.outputs.['google.spanner']`.
+- Permissions for managed Cloud Tasks queues, based on the triggers for the service (see the corresponding section).
 
 Automatic definition of IAM permissions can be disabled by setting the `set_*_permissions` variables to `false`.
 
@@ -45,3 +46,19 @@ Automatic definition of IAM permissions can be disabled by setting the `set_*_pe
 This module can also create and configure Pub/Sub push subscriptions for all event triggers defined in `serviceContainer.triggers`. For this, set the `enable_[pubsub_]triggers` variable to `true`.
 
 For each trigger with `type: event`, a Pub/Sub subscription for the `topic` with the push endpoint set to `endpoint.path` will be created. Pub/Sub will be configured such that calls to the service are authenticated using a dedicated service account.
+
+### Cloud Tasks triggers (queues)
+
+Similarly to Pub/Sub triggers, this module can also manage Cloud Tasks queues for corresponding triggers. The `enable_[tasks_]triggers` variable should be set to `true`.
+
+For each trigger with `type: google.task`, a Cloud Tasks queue will be created with the name of the `queue` attribute for the trigger (plus a suffix). The `endpoint` configuration is identical to Pub/Sub, and must reference an HTTP endpoint for the service. Although this is not currently used by the module, the endpoint will be used to configured queue-level HTTP requests in the future.
+
+If `set_[iam|tasks]_permissions` is `true`, the IAM permissions will be configured such that the service can:
+
+- Create tasks in the queues.
+- Set the service account for the service as the `OIDC token` in tasks.
+- Allow the service account to invoke the Cloud Run service itself.
+
+This allows creating tasks from the Cloud Run service which call back the trigger endpoint on the service itself.
+
+Finally, the tasks queue IDs (needed by the Cloud Tasks client) are made available as environment variables in the service as `TASKS_QUEUE_<NAME_IN_UPPERCASE>`. For example, the ID of the queue `my-queue` will be made available in the variable `TASKS_QUEUE_MY_QUEUE`.
