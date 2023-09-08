@@ -55,6 +55,7 @@ locals {
   environment_variables = merge(
     local.pubsub_environment_variables,
     local.spanner_environment_variables,
+    local.tasks_environment_variables,
     local.conf_environment_variables,
     var.environment_variables
   )
@@ -67,9 +68,11 @@ locals {
   set_firestore_permissions = coalesce(var.set_firestore_permissions, var.set_iam_permissions)
   set_pubsub_permissions    = coalesce(var.set_pubsub_permissions, var.set_iam_permissions)
   set_spanner_permissions   = coalesce(var.set_spanner_permissions, var.set_iam_permissions)
+  set_tasks_permissions     = coalesce(var.set_tasks_permissions, var.set_iam_permissions)
 
   # Triggers.
   enable_pubsub_triggers = coalesce(var.enable_pubsub_triggers, var.enable_triggers)
+  enable_tasks_triggers  = coalesce(var.enable_tasks_triggers, var.enable_triggers)
 }
 
 data "google_project" "project" {

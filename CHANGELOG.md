@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Add support for Cloud Tasks triggers.
+
 Fixes:
 
 - Ensure IAM permissions for Spanner depend on the databases (the `spanner_ddl_dependency` variable).

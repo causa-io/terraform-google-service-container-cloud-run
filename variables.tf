@@ -153,6 +153,12 @@ variable "set_spanner_permissions" {
   default     = null
 }
 
+variable "set_tasks_permissions" {
+  type        = bool
+  description = "Whether IAM permissions on Cloud Tasks should be set so that the service account can enqueue tasks and call itself for queues defined in the service's triggers. Defaults to `set_iam_permissions`."
+  default     = null
+}
+
 variable "enable_triggers" {
   type        = bool
   description = "Whether triggers for the service should be configured."
@@ -162,6 +168,12 @@ variable "enable_triggers" {
 variable "enable_pubsub_triggers" {
   type        = bool
   description = "Whether Pub/Sub triggers for the service should be configured. Defaults to `enable_triggers`."
+  default     = null
+}
+
+variable "enable_tasks_triggers" {
+  type        = bool
+  description = "Whether Cloud Tasks triggers for the service should be configured. Defaults to `enable_triggers`."
   default     = null
 }
 
