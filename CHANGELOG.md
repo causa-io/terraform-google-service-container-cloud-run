@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.5.0 (2023-09-08)
+
 Features:
 
 - Add support for Cloud Tasks triggers.
