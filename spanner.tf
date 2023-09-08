@@ -11,6 +11,10 @@ resource "google_spanner_database_iam_member" "service_spanner" {
   database = each.value.database
   role     = "roles/spanner.databaseUser"
   member   = "serviceAccount:${local.service_account_email}"
+
+  depends_on = [
+    var.spanner_ddl_dependency,
+  ]
 }
 
 locals {
