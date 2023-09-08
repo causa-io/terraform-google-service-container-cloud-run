@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Ensure IAM permissions for Spanner depend on the databases (the `spanner_ddl_dependency` variable).
+
 ## v0.4.1 (2023-08-25)
 
 Fixes:
