@@ -27,3 +27,13 @@ output "tasks_queues" {
   description = "The IDs of Cloud Tasks queues created by the module for triggers defined in the configuration."
   value       = { for name, queue in google_cloud_tasks_queue.queues : name => queue.id }
 }
+
+output "routes" {
+  value = {
+    paths   = var.enable_public_http_endpoints ? local.conf_http_endpoints : []
+    type    = "google.cloudRun"
+    region  = google_cloud_run_service.service.location
+    service = google_cloud_run_service.service.name
+  }
+  description = "The configuration that can be passed to the `api-router` module. Only relevant if the service exposes public HTTP endpoints."
+}
