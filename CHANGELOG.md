@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.6.0 (2023-09-28)
+
 Features:
 
 - Define the `routes` output, which integrates with the [`api-router`](https://github.com/causa-io/terraform-google-api-router) module.
