@@ -3,7 +3,12 @@ locals {
   # a valid (HTTP) endpoint.
   pubsub_triggers = local.enable_pubsub_triggers ? {
     for key, value in local.conf_triggers :
-    key => value
+    key => {
+      topic           = value.topic
+      endpoint_path   = value.endpoint.path
+      minimum_backoff = try(value["google.pubSub"].minimumBackoff, "10s")
+      maximum_backoff = try(value["google.pubSub"].maximumBackoff, "600s")
+    }
     if try(value.type, null) == "event" && try(value.endpoint.type, null) == "http"
   } : {}
 }
@@ -22,8 +27,13 @@ resource "google_pubsub_subscription" "triggers" {
     ttl = ""
   }
 
+  retry_policy {
+    minimum_backoff = each.value.minimum_backoff
+    maximum_backoff = each.value.maximum_backoff
+  }
+
   push_config {
-    push_endpoint = "${google_cloud_run_service.service.status[0].url}${each.value.endpoint.path}"
+    push_endpoint = "${google_cloud_run_service.service.status[0].url}${each.value.endpoint_path}"
 
     oidc_token {
       service_account_email = google_service_account.pubsub_trigger_invoker[0].email

@@ -45,7 +45,21 @@ Automatic definition of IAM permissions can be disabled by setting the `set_*_pe
 
 This module can also create and configure Pub/Sub push subscriptions for all event triggers defined in `serviceContainer.triggers`. For this, set the `enable_[pubsub_]triggers` variable to `true`.
 
-For each trigger with `type: event`, a Pub/Sub subscription for the `topic` with the push endpoint set to `endpoint.path` will be created. Pub/Sub will be configured such that calls to the service are authenticated using a dedicated service account.
+For each trigger with `type: event`, a Pub/Sub subscription for the `topic` with the push endpoint set to `endpoint.path` will be created. Pub/Sub will be configured such that calls to the service are authenticated using a dedicated service account. The exponential backoff for the retry policy can also be configured per trigger. For example, the service configuration could look something like:
+
+```yaml
+serviceContainer:
+  triggers:
+    myTrigger:
+      type: event
+      topic: my-pubsub-topic
+      endpoint:
+        type: http
+        path: /service/http/route
+      google.pubSub:
+        minimumBackoff: 1s
+        maximumBackoff: 100s
+```
 
 ### Cloud Tasks triggers (queues)
 
