@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Breaking changes:
+
+- Pub/Sub triggers (push subscriptions) are now configured with [exponential backoff](https://cloud.google.com/pubsub/docs/handling-failures#exponential_backoff) by default, with the default Pub/Sub values of 10 seconds for minimum backoff, and 600 seconds for maximum backoff.
+
+Features:
+
+- Pub/Sub triggers exponential backoff can be configured using the `"google.pubSub".minimumBackoff` and `"google.pubSub".maximumBackoff` parameters on each trigger.
+
 ## v0.6.0 (2023-09-28)
 
 Features:
