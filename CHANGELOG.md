@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Allow setting a global Pub/Sub triggers backoff in the Causa configuration (`google.pubSub.[minimum|maximum]Backoff`) and the Terraform module (`pubsub_triggers_[minimum|maximum]_backoff` variables).
+
 ## v0.7.0 (2023-11-21)
 
 Breaking changes:
