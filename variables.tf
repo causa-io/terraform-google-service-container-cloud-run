@@ -93,6 +93,18 @@ variable "vpc_connector_egress_settings" {
   default     = null
 }
 
+variable "pubsub_triggers_minimum_backoff" {
+  type        = string
+  description = "The minimum backoff for Pub/Sub triggers. Defaults to the `google.pubSub.minimumBackoff` configuration, or `10s`."
+  default     = null
+}
+
+variable "pubsub_triggers_maximum_backoff" {
+  type        = string
+  description = "The maximum backoff for Pub/Sub triggers. Defaults to the `google.pubSub.maximumBackoff` configuration, or `600s`."
+  default     = null
+}
+
 variable "ingress" {
   type        = string
   description = "The type of allowed ingress that can reach the container. Can be `all`, `internal`, `internal-and-cloud-load-balancing`. Defaults to the `google.cloudRun.ingress` configuration, or `internal-and-cloud-load-balancing`."

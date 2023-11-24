@@ -34,6 +34,9 @@ locals {
   conf_ingress                       = try(local.conf_cloud_run.ingress, null)
   conf_vpc_connector_name            = try(local.conf_cloud_run.vpcAccessConnector, null)
   conf_vpc_connector_egress_settings = try(local.conf_cloud_run.vpcAccessConnectorEgressSettings, null)
+  conf_pubsub                        = try(local.conf_google.pubSub, tomap({}))
+  conf_pubsub_minimum_backoff        = try(local.conf_pubsub.minimumBackoff, null)
+  conf_pubsub_maximum_backoff        = try(local.conf_pubsub.maximumBackoff, null)
 
   # Although unlikely, it is okay for this to fail if `google.cloudRun.dockerRepository` is not set, as long as
   # `var.image` is set.
@@ -59,10 +62,12 @@ locals {
     local.conf_environment_variables,
     var.environment_variables
   )
-  secret_environment_variables  = merge(local.conf_secret_environment_variables, var.secret_environment_variables)
-  ingress                       = coalesce(var.ingress, local.conf_ingress, "internal-and-cloud-load-balancing")
-  vpc_connector_name            = try(coalesce(var.vpc_connector_name, local.conf_vpc_connector_name), null)
-  vpc_connector_egress_settings = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "all-traffic")
+  secret_environment_variables    = merge(local.conf_secret_environment_variables, var.secret_environment_variables)
+  ingress                         = coalesce(var.ingress, local.conf_ingress, "internal-and-cloud-load-balancing")
+  vpc_connector_name              = try(coalesce(var.vpc_connector_name, local.conf_vpc_connector_name), null)
+  vpc_connector_egress_settings   = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "all-traffic")
+  pubsub_triggers_minimum_backoff = coalesce(var.pubsub_triggers_minimum_backoff, local.conf_pubsub_minimum_backoff, "10s")
+  pubsub_triggers_maximum_backoff = coalesce(var.pubsub_triggers_maximum_backoff, local.conf_pubsub_maximum_backoff, "600s")
 
   # Permissions.
   set_firestore_permissions = coalesce(var.set_firestore_permissions, var.set_iam_permissions)

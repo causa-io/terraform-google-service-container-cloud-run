@@ -6,8 +6,8 @@ locals {
     key => {
       topic           = value.topic
       endpoint_path   = value.endpoint.path
-      minimum_backoff = try(value["google.pubSub"].minimumBackoff, "10s")
-      maximum_backoff = try(value["google.pubSub"].maximumBackoff, "600s")
+      minimum_backoff = try(value["google.pubSub"].minimumBackoff, local.pubsub_triggers_minimum_backoff)
+      maximum_backoff = try(value["google.pubSub"].maximumBackoff, local.pubsub_triggers_maximum_backoff)
     }
     if try(value.type, null) == "event" && try(value.endpoint.type, null) == "http"
   } : {}
