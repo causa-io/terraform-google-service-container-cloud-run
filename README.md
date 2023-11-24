@@ -59,6 +59,12 @@ serviceContainer:
       google.pubSub:
         minimumBackoff: 1s
         maximumBackoff: 100s
+
+# Default values for all triggers.
+google:
+  pubSub:
+    minimumBackoff: 10s
+    maximumBackoff: 600s
 ```
 
 ### Cloud Tasks triggers (queues)
