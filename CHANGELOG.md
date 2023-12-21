@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Breaking changes:
+
+- The Cloud Run V2 API is now used through the `google_cloud_run_v2_service` resource. You can use an [`import` block](https://developer.hashicorp.com/terraform/language/import) to reference an existing service, and `terraform state rm` to remove the existing `google_cloud_run_service` resource.
+- The `ingress` (`google.cloudRun.ingress`) and `vpc_connector_egress_settings` (`google.cloudRun.vpcAccessConnectorEgressSettings`) settings must use the enum values defined by the [V2 API](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services).
+- The maximum number of instances (`max_instances` Terraform variable and `serviceContainer.maxInstances` configuration) is now set to `100` by default (which was already the default set by the Cloud Run API).
+
 ## v0.8.0 (2023-11-24)
 
 Features:
