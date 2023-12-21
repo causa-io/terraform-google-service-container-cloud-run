@@ -1,20 +1,20 @@
 output "name" {
-  value       = google_cloud_run_service.service.name
+  value       = google_cloud_run_v2_service.service.name
   description = "The name of the Cloud Run service."
 }
 
 output "location" {
-  value       = google_cloud_run_service.service.location
+  value       = google_cloud_run_v2_service.service.location
   description = "The location of the Cloud Run service."
 }
 
 output "project" {
-  value       = google_cloud_run_service.service.project
+  value       = google_cloud_run_v2_service.service.project
   description = "The project of the Cloud Run service."
 }
 
 output "url" {
-  value       = google_cloud_run_service.service.status[0].url
+  value       = google_cloud_run_v2_service.service.uri
   description = "The URL to make requests to the Cloud Run service."
 }
 
@@ -32,8 +32,8 @@ output "routes" {
   value = {
     paths   = var.enable_public_http_endpoints ? local.conf_http_endpoints : []
     type    = "google.cloudRun"
-    region  = google_cloud_run_service.service.location
-    service = google_cloud_run_service.service.name
+    region  = google_cloud_run_v2_service.service.location
+    service = google_cloud_run_v2_service.service.name
   }
   description = "The configuration that can be passed to the `api-router` module. Only relevant if the service exposes public HTTP endpoints."
 }

@@ -33,7 +33,7 @@ resource "google_pubsub_subscription" "triggers" {
   }
 
   push_config {
-    push_endpoint = "${google_cloud_run_service.service.status[0].url}${each.value.endpoint_path}"
+    push_endpoint = "${google_cloud_run_v2_service.service.uri}${each.value.endpoint_path}"
 
     oidc_token {
       service_account_email = google_service_account.pubsub_trigger_invoker[0].email
@@ -55,8 +55,8 @@ resource "google_cloud_run_service_iam_member" "pubsub_trigger_invoker" {
   count = length(local.pubsub_triggers) > 0 ? 1 : 0
 
   project  = local.gcp_project_id
-  service  = google_cloud_run_service.service.name
-  location = google_cloud_run_service.service.location
+  service  = google_cloud_run_v2_service.service.name
+  location = google_cloud_run_v2_service.service.location
   role     = "roles/run.invoker"
   member   = "serviceAccount:${google_service_account.pubsub_trigger_invoker[0].email}"
 }
