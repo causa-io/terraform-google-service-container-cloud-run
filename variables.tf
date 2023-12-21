@@ -71,7 +71,7 @@ variable "min_instances" {
 
 variable "max_instances" {
   type        = number
-  description = "The maximum number of containers that can be deployed in response to input requests. Defaults to the `serviceContainer.maxInstances` configuration."
+  description = "The maximum number of containers that can be deployed in response to input requests. Defaults to the `serviceContainer.maxInstances` configuration, or `100`."
   default     = null
 }
 
@@ -83,13 +83,13 @@ variable "cpu_always_allocated" {
 
 variable "vpc_connector_name" {
   type        = string
-  description = "The name of the VPC access connector through which egress traffic should be routed. Defaults to the `google.cloudRun.vpcAccessConnector` configuration."
+  description = "The name of the VPC access connector through which egress traffic should be routed. This can be only the name or the full resource path. Defaults to the `google.cloudRun.vpcAccessConnector` configuration."
   default     = null
 }
 
 variable "vpc_connector_egress_settings" {
   type        = string
-  description = "The setting for egress traffic that goes through the VPC access connector. Can be `all-traffic` or `private-ranges-only`. Defaults to the `google.cloudRun.vpcAccessConnectorEgressSettings` configuration, or `all-traffic`."
+  description = "The setting for egress traffic that goes through the VPC access connector. Can be `ALL_TRAFFIC` or `PRIVATE_RANGES_ONLY`. Defaults to the `google.cloudRun.vpcAccessConnectorEgressSettings` configuration, or `ALL_TRAFFIC`."
   default     = null
 }
 
@@ -107,7 +107,7 @@ variable "pubsub_triggers_maximum_backoff" {
 
 variable "ingress" {
   type        = string
-  description = "The type of allowed ingress that can reach the container. Can be `all`, `internal`, `internal-and-cloud-load-balancing`. Defaults to the `google.cloudRun.ingress` configuration, or `internal-and-cloud-load-balancing`."
+  description = "The type of allowed ingress that can reach the container. Can be `INGRESS_TRAFFIC_ALL`, `INGRESS_TRAFFIC_INTERNAL_ONLY`, or `INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER`. Defaults to the `google.cloudRun.ingress` configuration, or `INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER`."
   default     = null
 }
 

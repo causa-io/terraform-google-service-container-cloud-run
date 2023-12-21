@@ -50,7 +50,7 @@ locals {
   cpu_limit            = coalesce(var.cpu_limit, local.conf_cpu_limit, "1000m")
   memory_limit         = coalesce(var.memory_limit, local.conf_memory_limit, "512Mi")
   min_instances        = try(coalesce(var.min_instances, local.conf_min_instances), null)
-  max_instances        = try(coalesce(var.max_instances, local.conf_max_instances), null)
+  max_instances        = try(coalesce(var.max_instances, local.conf_max_instances), 100)
   cpu_always_allocated = coalesce(var.cpu_always_allocated, local.conf_cpu_always_allocated, false)
   timeout              = try(coalesce(var.timeout, local.conf_timeout), null)
   request_concurrency  = try(coalesce(var.request_concurrency, local.conf_request_concurrency), null)
@@ -63,9 +63,9 @@ locals {
     var.environment_variables
   )
   secret_environment_variables    = merge(local.conf_secret_environment_variables, var.secret_environment_variables)
-  ingress                         = coalesce(var.ingress, local.conf_ingress, "internal-and-cloud-load-balancing")
+  ingress                         = coalesce(var.ingress, local.conf_ingress, "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER")
   vpc_connector_name              = try(coalesce(var.vpc_connector_name, local.conf_vpc_connector_name), null)
-  vpc_connector_egress_settings   = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "all-traffic")
+  vpc_connector_egress_settings   = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "ALL_TRAFFIC")
   pubsub_triggers_minimum_backoff = coalesce(var.pubsub_triggers_minimum_backoff, local.conf_pubsub_minimum_backoff, "10s")
   pubsub_triggers_maximum_backoff = coalesce(var.pubsub_triggers_maximum_backoff, local.conf_pubsub_maximum_backoff, "600s")
 

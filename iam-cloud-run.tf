@@ -6,8 +6,8 @@ resource "google_cloud_run_service_iam_member" "all_users" {
   count = var.enable_public_http_endpoints ? 1 : 0
 
   project  = local.gcp_project_id
-  location = google_cloud_run_service.service.location
-  service  = google_cloud_run_service.service.name
+  location = google_cloud_run_v2_service.service.location
+  service  = google_cloud_run_v2_service.service.name
   role     = "roles/run.invoker"
   member   = "allUsers"
 }

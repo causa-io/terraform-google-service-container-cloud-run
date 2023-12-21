@@ -47,7 +47,7 @@ resource "google_cloud_tasks_queue" "queues" {
 
   # When it becomes available, this should also set the `http_request` block. This would avoid having to pass the
   # service's URL to itself. Instead, the `http_request` configuration at the queue level could reference
-  # `google_cloud_run_service.service.status[0].url` + the trigger's endpoint path.
+  # `google_cloud_run_v2_service.service.uri` + the trigger's endpoint path.
 
   retry_config {
     max_attempts       = try(each.value.retryPolicy.maxAttempts, -1)
@@ -86,9 +86,9 @@ resource "google_service_account_iam_member" "service_own_user" {
 resource "google_cloud_run_service_iam_member" "service_own_caller" {
   count = local.set_tasks_permissions && length(local.tasks_triggers) > 0 ? 1 : 0
 
-  project  = google_cloud_run_service.service.project
-  location = google_cloud_run_service.service.location
-  service  = google_cloud_run_service.service.name
+  project  = google_cloud_run_v2_service.service.project
+  location = google_cloud_run_v2_service.service.location
+  service  = google_cloud_run_v2_service.service.name
   role     = "roles/run.invoker"
   member   = "serviceAccount:${local.service_account_email}"
 }
