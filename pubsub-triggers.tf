@@ -8,6 +8,7 @@ locals {
       endpoint_path   = value.endpoint.path
       minimum_backoff = try(value["google.pubSub"].minimumBackoff, local.pubsub_triggers_minimum_backoff)
       maximum_backoff = try(value["google.pubSub"].maximumBackoff, local.pubsub_triggers_maximum_backoff)
+      filter          = try(value["google.pubSub"]["filter"], null)
     }
     if try(value.type, null) == "event" && try(value.endpoint.type, null) == "http"
   } : {}
@@ -21,6 +22,8 @@ resource "google_pubsub_subscription" "triggers" {
   # The subscriptions name is ensured to be unique by prefixing it with the service name.
   name  = "run-${local.service_name}-${each.key}"
   topic = local.pubsub_topic_ids[each.value.topic]
+
+  filter = each.value.filter
 
   ack_deadline_seconds = 600
   expiration_policy {

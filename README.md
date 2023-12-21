@@ -59,6 +59,8 @@ serviceContainer:
       google.pubSub:
         minimumBackoff: 1s
         maximumBackoff: 100s
+        # Optional message filtering.
+        filter: attributes.eventName = "someEvent"
 
 # Default values for all triggers.
 google:
