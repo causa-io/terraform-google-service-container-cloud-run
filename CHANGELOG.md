@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.9.0 (2023-12-21)
+
 Breaking changes:
 
 - The Cloud Run V2 API is now used through the `google_cloud_run_v2_service` resource. You can use an [`import` block](https://developer.hashicorp.com/terraform/language/import) to reference an existing service, and `terraform state rm` to remove the existing `google_cloud_run_service` resource.
