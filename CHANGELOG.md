@@ -8,6 +8,10 @@ Breaking changes:
 - The `ingress` (`google.cloudRun.ingress`) and `vpc_connector_egress_settings` (`google.cloudRun.vpcAccessConnectorEgressSettings`) settings must use the enum values defined by the [V2 API](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services).
 - The maximum number of instances (`max_instances` Terraform variable and `serviceContainer.maxInstances` configuration) is now set to `100` by default (which was already the default set by the Cloud Run API).
 
+Features:
+
+- Support Pub/Sub subscription message filtering using the `"google.pubSub".filter` trigger attribute.
+
 ## v0.8.0 (2023-11-24)
 
 Features:
