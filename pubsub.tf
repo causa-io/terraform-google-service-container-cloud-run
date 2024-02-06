@@ -7,7 +7,7 @@ locals {
   )
 
   # The map between event full names and Pub/Sub topic IDs.
-  # This defaults to topics in the set GCP project, but can be overridden by the user (especially usefull to express the
+  # This defaults to topics in the set GCP project, but can be overridden by the user (especially useful to express the
   # dependency on the Pub/Sub topic resources).
   pubsub_topic_ids = merge(
     { for topic in local.referenced_topics : topic => "projects/${local.gcp_project_id}/topics/${topic}" },
