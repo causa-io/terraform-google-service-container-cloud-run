@@ -10,7 +10,7 @@ locals {
       maximum_backoff = try(value["google.pubSub"].maximumBackoff, local.pubsub_triggers_maximum_backoff)
       filter          = try(value["google.pubSub"]["filter"], null)
     }
-    if try(value.type, null) == "event" && try(value.endpoint.type, null) == "http"
+    if contains(["event", "google.pubSub"], try(value.type, null)) && try(value.endpoint.type, null) == "http"
   } : {}
 }
 
