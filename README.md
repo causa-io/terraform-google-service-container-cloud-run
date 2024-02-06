@@ -45,7 +45,7 @@ Automatic definition of IAM permissions can be disabled by setting the `set_*_pe
 
 This module can also create and configure Pub/Sub push subscriptions for all event triggers defined in `serviceContainer.triggers`. For this, set the `enable_[pubsub_]triggers` variable to `true`.
 
-For each trigger with `type: event`, a Pub/Sub subscription for the `topic` with the push endpoint set to `endpoint.path` will be created. Pub/Sub will be configured such that calls to the service are authenticated using a dedicated service account. The exponential backoff for the retry policy can also be configured per trigger. For example, the service configuration could look something like:
+For each trigger with `type: event` or `type: google.pubSub`, a Pub/Sub subscription for the `topic` with the push endpoint set to `endpoint.path` will be created. Pub/Sub will be configured such that calls to the service are authenticated using a dedicated service account. The exponential backoff for the retry policy can also be configured per trigger. For example, the service configuration could look something like:
 
 ```yaml
 serviceContainer:
@@ -68,6 +68,8 @@ google:
     minimumBackoff: 10s
     maximumBackoff: 600s
 ```
+
+> 💡 The `google.pubSub` type can be used in place of the `event` type for topics that are not managed by Causa. This allows defining triggers that will not be included in the rest of Causa event-related tooling (e.g. code generation).
 
 ### Cloud Tasks triggers (queues)
 
