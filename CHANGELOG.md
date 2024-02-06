@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.10.0 (2024-02-06)
+
 Features:
 
 - Support the `google.pubSub` trigger type as a way to receive messages from Pub/Sub topics not managed by Causa.
