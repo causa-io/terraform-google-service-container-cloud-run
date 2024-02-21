@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.10.1 (2024-02-21)
+
 Chores:
 
 - Upgrade compatible `google` provider versions to support `5.*.*`.
