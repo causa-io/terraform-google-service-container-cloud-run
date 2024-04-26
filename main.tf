@@ -37,24 +37,27 @@ locals {
   conf_pubsub                        = try(local.conf_google.pubSub, tomap({}))
   conf_pubsub_minimum_backoff        = try(local.conf_pubsub.minimumBackoff, null)
   conf_pubsub_maximum_backoff        = try(local.conf_pubsub.maximumBackoff, null)
+  conf_google_load_balancing         = try(local.conf_google.loadBalancing, tomap({}))
+  conf_custom_request_headers        = try(local.conf_google_load_balancing.customRequestHeaders, toset([]))
 
   # Although unlikely, it is okay for this to fail if `google.cloudRun.dockerRepository` is not set, as long as
   # `var.image` is set.
   conf_image = try("${local.conf_cloud_run.dockerRepository}/${local.conf_project_name}:${local.conf_active_version}", null)
 
   # Configuration with variable overrides.
-  gcp_project_id       = coalesce(var.gcp_project_id, local.conf_google_project)
-  service_name         = coalesce(var.name, local.conf_project_name)
-  location             = coalesce(var.location, local.conf_location)
-  image                = coalesce(var.image, local.conf_image)
-  cpu_limit            = coalesce(var.cpu_limit, local.conf_cpu_limit, "1000m")
-  memory_limit         = coalesce(var.memory_limit, local.conf_memory_limit, "512Mi")
-  min_instances        = try(coalesce(var.min_instances, local.conf_min_instances), null)
-  max_instances        = try(coalesce(var.max_instances, local.conf_max_instances), 100)
-  cpu_always_allocated = coalesce(var.cpu_always_allocated, local.conf_cpu_always_allocated, false)
-  timeout              = try(coalesce(var.timeout, local.conf_timeout), null)
-  request_concurrency  = try(coalesce(var.request_concurrency, local.conf_request_concurrency), null)
-  healthcheck_endpoint = var.healthcheck_endpoint
+  gcp_project_id         = coalesce(var.gcp_project_id, local.conf_google_project)
+  service_name           = coalesce(var.name, local.conf_project_name)
+  location               = coalesce(var.location, local.conf_location)
+  image                  = coalesce(var.image, local.conf_image)
+  cpu_limit              = coalesce(var.cpu_limit, local.conf_cpu_limit, "1000m")
+  memory_limit           = coalesce(var.memory_limit, local.conf_memory_limit, "512Mi")
+  min_instances          = try(coalesce(var.min_instances, local.conf_min_instances), null)
+  max_instances          = try(coalesce(var.max_instances, local.conf_max_instances), 100)
+  custom_request_headers = coalesce(var.custom_request_headers, local.conf_custom_request_headers, toset([]))
+  cpu_always_allocated   = coalesce(var.cpu_always_allocated, local.conf_cpu_always_allocated, false)
+  timeout                = try(coalesce(var.timeout, local.conf_timeout), null)
+  request_concurrency    = try(coalesce(var.request_concurrency, local.conf_request_concurrency), null)
+  healthcheck_endpoint   = var.healthcheck_endpoint
   environment_variables = merge(
     local.pubsub_environment_variables,
     local.spanner_environment_variables,
