@@ -141,6 +141,12 @@ variable "pubsub_topic_ids" {
   default     = {}
 }
 
+variable "custom_request_headers" {
+  type        = set(string)
+  description = "A list of custom request headers that should be set by the API router. This simply sets the corresponding field in the `routes` output. Defaults to the `google.loadBalancing.customRequestHeaders` configuration."
+  default     = null
+}
+
 variable "set_iam_permissions" {
   type        = bool
   description = "Whether IAM permissions should be set so that the service account can access resources defined in the service's outputs."

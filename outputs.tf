@@ -30,10 +30,11 @@ output "tasks_queues" {
 
 output "routes" {
   value = {
-    paths   = var.enable_public_http_endpoints ? local.conf_http_endpoints : []
-    type    = "google.cloudRun"
-    region  = google_cloud_run_v2_service.service.location
-    service = google_cloud_run_v2_service.service.name
+    paths                  = var.enable_public_http_endpoints ? local.conf_http_endpoints : []
+    type                   = "google.cloudRun"
+    region                 = google_cloud_run_v2_service.service.location
+    service                = google_cloud_run_v2_service.service.name
+    custom_request_headers = local.custom_request_headers
   }
   description = "The configuration that can be passed to the `api-router` module. Only relevant if the service exposes public HTTP endpoints."
 }
