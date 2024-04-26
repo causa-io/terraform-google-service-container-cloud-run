@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Forward custom request headers from the configuration or input variable to the `routes` output.
+
 ## v0.10.1 (2024-02-21)
 
 Chores:
