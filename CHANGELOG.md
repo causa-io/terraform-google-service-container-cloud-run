@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.11.0 (2024-04-26)
+
 Features:
 
 - Forward custom request headers from the configuration or input variable to the `routes` output.
