@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.12.0 (2024-05-02)
+
 Features:
 
 - Support `google.eventarc` triggers.
