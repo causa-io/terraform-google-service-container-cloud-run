@@ -86,3 +86,29 @@ If `set_[iam|tasks]_permissions` is `true`, the IAM permissions will be configur
 This allows creating tasks from the Cloud Run service which call back the trigger endpoint on the service itself.
 
 Finally, the tasks queue IDs (needed by the Cloud Tasks client) are made available as environment variables in the service as `TASKS_QUEUE_<NAME_IN_UPPERCASE>`. For example, the ID of the queue `my-queue` will be made available in the variable `TASKS_QUEUE_MY_QUEUE`.
+
+### Eventarc triggers
+
+This module can also manage Eventarc triggers pushing events to the service. The `enable_[eventarc_]triggers` variable should be set to `true`. Here is an example of how to configure such a trigger:
+
+```yaml
+serviceContainer:
+  triggers:
+    myEventarcTrigger:
+      type: google.eventarc
+      endpoint:
+        type: http
+        path: /path/to/trigger
+      google.eventarc:
+        location: europe-west1 # Defaults to the location of the Cloud Run service.
+        contentType: application/json # Required as all events do not support the same content types.
+        filters: # Required...
+          # ...because at least the `type` should be filtered.
+          - attribute: type
+            value: google.cloud.firestore.document.v1.written
+          - attribute: database
+            value: (default)
+          - attribute: document
+            operator: match-path-pattern # The operator can optionally be set as well.
+            value: myCollection/{documentId=*}
+```
