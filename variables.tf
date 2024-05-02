@@ -195,6 +195,12 @@ variable "enable_tasks_triggers" {
   default     = null
 }
 
+variable "enable_eventarc_triggers" {
+  type        = bool
+  description = "Whether Eventarc triggers for the service should be configured. Defaults to `enable_triggers`."
+  default     = null
+}
+
 variable "spanner_ddl_dependency" {
   type        = list(string)
   description = "The DDL for the (Spanner) database that the service depends on. This is used to ensure that the database is created and updated before the service is deployed."
