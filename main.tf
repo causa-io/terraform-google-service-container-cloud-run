@@ -79,8 +79,9 @@ locals {
   set_tasks_permissions     = coalesce(var.set_tasks_permissions, var.set_iam_permissions)
 
   # Triggers.
-  enable_pubsub_triggers = coalesce(var.enable_pubsub_triggers, var.enable_triggers)
-  enable_tasks_triggers  = coalesce(var.enable_tasks_triggers, var.enable_triggers)
+  enable_pubsub_triggers   = coalesce(var.enable_pubsub_triggers, var.enable_triggers)
+  enable_tasks_triggers    = coalesce(var.enable_tasks_triggers, var.enable_triggers)
+  enable_eventarc_triggers = coalesce(var.enable_eventarc_triggers, var.enable_triggers)
 }
 
 data "google_project" "project" {
