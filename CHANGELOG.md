@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Support Terraform-defined triggers using the `triggers` module variable.
+
 ## v0.12.0 (2024-05-02)
 
 Features:
