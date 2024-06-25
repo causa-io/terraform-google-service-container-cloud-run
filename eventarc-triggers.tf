@@ -2,7 +2,7 @@ locals {
   # The map of triggers from the `serviceContainer.triggers` configuration, filtered to keep only Eventarc triggers with
   # a valid (HTTP) endpoint.
   eventarc_triggers = local.enable_eventarc_triggers ? {
-    for key, value in local.conf_triggers :
+    for key, value in local.triggers :
     key => {
       endpoint_path = value.endpoint.path
       content_type  = value["google.eventarc"].contentType

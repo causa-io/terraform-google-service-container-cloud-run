@@ -2,7 +2,7 @@ locals {
   # The map of triggers from the `serviceContainer.triggers` configuration, filtered to keep only Pub/Sub triggers with
   # a valid (HTTP) endpoint.
   pubsub_triggers = local.enable_pubsub_triggers ? {
-    for key, value in local.conf_triggers :
+    for key, value in local.triggers :
     key => {
       topic           = value.topic
       endpoint_path   = value.endpoint.path

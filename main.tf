@@ -71,6 +71,7 @@ locals {
   vpc_connector_egress_settings   = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "ALL_TRAFFIC")
   pubsub_triggers_minimum_backoff = coalesce(var.pubsub_triggers_minimum_backoff, local.conf_pubsub_minimum_backoff, "10s")
   pubsub_triggers_maximum_backoff = coalesce(var.pubsub_triggers_maximum_backoff, local.conf_pubsub_maximum_backoff, "600s")
+  triggers                        = merge(local.conf_triggers, var.triggers)
 
   # Permissions.
   set_firestore_permissions = coalesce(var.set_firestore_permissions, var.set_iam_permissions)

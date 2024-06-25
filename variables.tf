@@ -206,3 +206,9 @@ variable "spanner_ddl_dependency" {
   description = "The DDL for the (Spanner) database that the service depends on. This is used to ensure that the database is created and updated before the service is deployed."
   default     = []
 }
+
+variable "triggers" {
+  type        = map(any)
+  description = "A map of triggers for the service. They will be merged with the `serviceContainer.triggers` configuration."
+  default     = {}
+}
