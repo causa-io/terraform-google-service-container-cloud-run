@@ -2,7 +2,7 @@ locals {
   # The map of triggers from the `serviceContainer.triggers` configuration, filtered to keep only Cloud Tasks triggers
   # with a valid (HTTP) endpoint.
   tasks_triggers = local.enable_tasks_triggers ? {
-    for key, value in local.conf_triggers :
+    for key, value in local.triggers :
     key => value
     if try(value.type, null) == "google.task" && try(value.endpoint.type, null) == "http"
   } : {}
