@@ -1,10 +1,7 @@
 locals {
   secrets = {
-    # Aliases are only required when the secret is stored in a different project. However one is assigned to each secret
-    # to make configuration simpler.
-    # The alias should start with `secret-` and its value should be the secret ID (not the version).
     for key, secret_path in local.secret_environment_variables : key =>
-    regex("(?P<id>projects\\/[\\w-]+\\/secrets\\/[\\w-]+)\\/versions\\/(?P<version>\\d+)", secret_path)
+    regex("(?P<id>projects\\/[\\w-]+\\/secrets\\/[\\w-]+)\\/versions\\/(?P<version>latest|\\d+)", secret_path)
   }
 
   # This module supports passing either the name of the connector (e.g. `my-connector`) or its full path (e.g.
