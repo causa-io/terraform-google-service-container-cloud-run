@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.14.0 (2024-08-06)
+
 Features:
 
 - Support `latest` as a version for secrets.
