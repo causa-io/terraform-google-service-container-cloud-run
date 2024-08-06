@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Features:
+
+- Support `latest` as a version for secrets.
+- Automatically define permissions for secrets accessed by the service.
+
 ## v0.13.0 (2024-06-25)
 
 Features:
