@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Make the Cloud Run service depend on Secret Manager permissions.
+
 ## v0.14.0 (2024-08-06)
 
 Features:
