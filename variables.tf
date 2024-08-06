@@ -177,6 +177,12 @@ variable "set_tasks_permissions" {
   default     = null
 }
 
+variable "set_secrets_permissions" {
+  type        = bool
+  description = "Whether IAM permissions on Secrets Manager should be set so that the service account can access secrets defined in the service's environment variables. Defaults to `set_iam_permissions`."
+  default     = null
+}
+
 variable "enable_triggers" {
   type        = bool
   description = "Whether triggers for the service should be configured."
