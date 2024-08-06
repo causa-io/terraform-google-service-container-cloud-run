@@ -78,6 +78,7 @@ locals {
   set_pubsub_permissions    = coalesce(var.set_pubsub_permissions, var.set_iam_permissions)
   set_spanner_permissions   = coalesce(var.set_spanner_permissions, var.set_iam_permissions)
   set_tasks_permissions     = coalesce(var.set_tasks_permissions, var.set_iam_permissions)
+  set_secrets_permissions   = coalesce(var.set_secrets_permissions, var.set_iam_permissions)
 
   # Triggers.
   enable_pubsub_triggers   = coalesce(var.enable_pubsub_triggers, var.enable_triggers)
