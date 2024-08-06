@@ -38,6 +38,7 @@ Based on the `causa.yaml` configuration, this module can also manage required pe
 - Publisher permissions to Pub/Sub topics listed in `serviceContainer.outputs.eventTopics`.
 - Read and write access to Spanner databases listed in `serviceContainer.outputs.['google.spanner']`.
 - Permissions for managed Cloud Tasks queues, based on the triggers for the service (see the corresponding section).
+- Read access to secrets referenced in `google.cloudRun.secretEnvironmentVariables`.
 
 Automatic definition of IAM permissions can be disabled by setting the `set_*_permissions` variables to `false`.
 
