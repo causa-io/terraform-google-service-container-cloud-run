@@ -105,5 +105,6 @@ resource "google_cloud_run_v2_service" "service" {
     google_spanner_database_iam_member.service_spanner,
     google_pubsub_topic_iam_member.service_pubsub_publisher,
     google_project_iam_member.service_firestore_user,
+    google_secret_manager_secret_iam_member.service_secrets,
   ]
 }
