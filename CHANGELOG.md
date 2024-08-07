@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Support override of the `active_version` using the corresponding variable.
+
 ## v0.14.1 (2024-08-06)
 
 Fixes:
