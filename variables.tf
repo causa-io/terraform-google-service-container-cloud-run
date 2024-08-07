@@ -15,6 +15,12 @@ variable "name" {
   default     = null
 }
 
+variable "active_version" {
+  type        = string
+  description = "The version of the service to deploy. Defaults to `project.activeVersion`."
+  default     = null
+}
+
 variable "service_account" {
   // Using an object allows to differentiate between the default `null` value and an email that would be passed, even at
   // plan time. If the service account email references a service account resource that hasn't been created yet, the

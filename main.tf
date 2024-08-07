@@ -42,11 +42,14 @@ locals {
 
   # Although unlikely, it is okay for this to fail if `google.cloudRun.dockerRepository` is not set, as long as
   # `var.image` is set.
-  conf_image = try("${local.conf_cloud_run.dockerRepository}/${local.conf_project_name}:${local.conf_active_version}", null)
+  # The local `active_version` is used, to allow a possible override by the `active_version` variable, even when the
+  # full image URL is obtained from the configuration.
+  conf_image = try("${local.conf_cloud_run.dockerRepository}/${local.conf_project_name}:${local.active_version}", null)
 
   # Configuration with variable overrides.
   gcp_project_id         = coalesce(var.gcp_project_id, local.conf_google_project)
   service_name           = coalesce(var.name, local.conf_project_name)
+  active_version         = coalesce(var.active_version, local.conf_active_version)
   location               = coalesce(var.location, local.conf_location)
   image                  = coalesce(var.image, local.conf_image)
   cpu_limit              = coalesce(var.cpu_limit, local.conf_cpu_limit, "1000m")
