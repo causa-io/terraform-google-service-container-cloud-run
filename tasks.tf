@@ -45,9 +45,29 @@ resource "google_cloud_tasks_queue" "queues" {
   location = local.location
   name     = local.tasks_queue_names[each.key]
 
-  # When it becomes available, this should also set the `http_request` block. This would avoid having to pass the
-  # service's URL to itself. Instead, the `http_request` configuration at the queue level could reference
-  # `google_cloud_run_v2_service.service.uri` + the trigger's endpoint path.
+  # This configuration avoids having to pass the service's URI to itself when creating new tasks (at runtime).
+  # This is especially useful because the service's URI is not known until the service is created, which makes it hard
+  # to "inject" into the service. Configuring the URI at the task level allows the service to create tasks without
+  # knowing its own URI.
+  http_target {
+    http_method = "POST"
+
+    uri_override {
+      scheme = "HTTPS"
+      host   = replace(google_cloud_run_v2_service.service.uri, "/^https:\\/\\//", "")
+
+      path_override {
+        path = each.value.endpoint.path
+      }
+
+      uri_override_enforce_mode = "ALWAYS"
+    }
+
+    oidc_token {
+      service_account_email = local.service_account_email
+      audience              = google_cloud_run_v2_service.service.uri
+    }
+  }
 
   retry_config {
     max_attempts       = try(each.value.retryPolicy.maxAttempts, -1)

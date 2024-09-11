@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Breaking changes:
+
+- Override the [HTTP target](https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues#httptarget) for the managed Cloud Tasks queues. This allows the service creating tasks to leave HTTP configuration up to the queue, such that it doesn't have to know its own URI.
+
 ## v0.15.1 (2024-08-30)
 
 Chores:
