@@ -76,7 +76,7 @@ google:
 
 Similarly to Pub/Sub triggers, this module can also manage Cloud Tasks queues for corresponding triggers. The `enable_[tasks_]triggers` variable should be set to `true`.
 
-For each trigger with `type: google.task`, a Cloud Tasks queue will be created with the name of the `queue` attribute for the trigger (plus a suffix). The `endpoint` configuration is identical to Pub/Sub, and must reference an HTTP endpoint for the service. Although this is not currently used by the module, the endpoint will be used to configured queue-level HTTP requests in the future.
+For each trigger with `type: google.task`, a Cloud Tasks queue will be created with the name of the `queue` attribute for the trigger (plus a suffix). The `endpoint` configuration is identical to Pub/Sub, and must reference an HTTP endpoint for the service. The endpoint is used to configured queue-level HTTP requests.
 
 If `set_[iam|tasks]_permissions` is `true`, the IAM permissions will be configured such that the service can:
 
