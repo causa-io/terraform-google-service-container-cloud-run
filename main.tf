@@ -29,6 +29,7 @@ locals {
   conf_location                      = try(local.conf_cloud_run.location, null)
   conf_secret_environment_variables  = try(local.conf_cloud_run.secretEnvironmentVariables, tomap({}))
   conf_cpu_always_allocated          = try(local.conf_cloud_run.cpuAlwaysAllocated, null)
+  conf_startup_cpu_boost             = try(local.conf_cloud_run.startupCpuBoost, null)
   conf_timeout                       = try(local.conf_cloud_run.timeout, null)
   conf_request_concurrency           = try(local.conf_cloud_run.requestConcurrency, null)
   conf_ingress                       = try(local.conf_cloud_run.ingress, null)
@@ -58,6 +59,7 @@ locals {
   max_instances          = try(coalesce(var.max_instances, local.conf_max_instances), 100)
   custom_request_headers = coalesce(var.custom_request_headers, local.conf_custom_request_headers, toset([]))
   cpu_always_allocated   = coalesce(var.cpu_always_allocated, local.conf_cpu_always_allocated, false)
+  startup_cpu_boost      = coalesce(var.startup_cpu_boost, local.conf_startup_cpu_boost, false)
   timeout                = try(coalesce(var.timeout, local.conf_timeout), null)
   request_concurrency    = try(coalesce(var.request_concurrency, local.conf_request_concurrency), null)
   healthcheck_endpoint   = var.healthcheck_endpoint

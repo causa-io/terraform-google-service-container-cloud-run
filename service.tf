@@ -29,7 +29,8 @@ resource "google_cloud_run_v2_service" "service" {
           memory = local.memory_limit
         }
 
-        cpu_idle = !local.cpu_always_allocated
+        cpu_idle          = !local.cpu_always_allocated
+        startup_cpu_boost = local.startup_cpu_boost
       }
 
       dynamic "env" {
