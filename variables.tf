@@ -87,6 +87,12 @@ variable "cpu_always_allocated" {
   default     = null
 }
 
+variable "startup_cpu_boost" {
+  type        = bool
+  description = "Whether the container should be given a CPU boost during startup. Defaults to the `google.cloudRun.startupCpuBoost` configuration, or `false`."
+  default     = null
+}
+
 variable "vpc_connector_name" {
   type        = string
   description = "The name of the VPC access connector through which egress traffic should be routed. This can be only the name or the full resource path. Defaults to the `google.cloudRun.vpcAccessConnector` configuration."
