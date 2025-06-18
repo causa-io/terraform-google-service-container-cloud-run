@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Support the `startup_cpu_boost` variable and `google.cloudRun.startupCpuBoost` configuration.
+
 ## v0.16.0 (2024-09-11)
 
 Breaking changes:
