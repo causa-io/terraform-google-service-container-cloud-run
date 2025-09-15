@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Configure monitoring IAM permissions required by the Spanner clients.
+
 ## v0.17.1 (2025-09-12)
 
 Chores:
