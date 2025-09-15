@@ -17,6 +17,18 @@ resource "google_spanner_database_iam_member" "service_spanner" {
   ]
 }
 
+# If the service uses a Spanner client, it needs to be able to write metrics to Cloud Monitoring.
+# Although the permissions are included in the `roles/spanner.databaseUser` role, they are not granted at the project
+# level, which makes them useless.
+# See https://cloud.google.com/spanner/docs/view-manage-client-side-metrics#access-client-side-metrics.
+resource "google_project_iam_member" "service_monitoring_metric_writer" {
+  count = length(resource.google_spanner_database_iam_member.service_spanner) > 0 ? 1 : 0
+
+  project = local.gcp_project_id
+  role    = "roles/monitoring.metricWriter"
+  member  = "serviceAccount:${local.service_account_email}"
+}
+
 locals {
   # The parsed outputs for the Spanner databases defined in the service's outputs.
   spanner_outputs = [
