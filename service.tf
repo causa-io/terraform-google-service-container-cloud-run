@@ -107,5 +107,6 @@ resource "google_cloud_run_v2_service" "service" {
     google_pubsub_topic_iam_member.service_pubsub_publisher,
     google_project_iam_member.service_firestore_user,
     google_secret_manager_secret_iam_member.service_secrets,
+    google_project_iam_member.service_monitoring_metric_writer,
   ]
 }
