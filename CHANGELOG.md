@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.19.0 (2025-11-28)
+
 Features:
 
 - Configure IAM permissions for Eventarc triggers referencing Cloud Storage buckets.
