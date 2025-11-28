@@ -18,6 +18,16 @@ locals {
     }
     if try(value.type, null) == "google.eventarc" && try(value.endpoint.type, null) == "http"
   } : {}
+
+  # The set of GCS buckets referenced by Eventarc triggers. Used to configure IAM permissions.
+  eventarc_triggers_storage_buckets = toset(flatten([
+    for _, trigger in local.eventarc_triggers :
+    [for filter in trigger.filters : filter.value if filter.attribute == "bucket"]
+    if anytrue([
+      for filter in trigger.filters :
+      filter.attribute == "type" && startswith(filter.value, "google.cloud.storage.")
+    ])
+  ]))
 }
 
 # The service account used by Eventarc to invoke the Cloud Run service's triggers.
@@ -65,10 +75,11 @@ resource "google_eventarc_trigger" "triggers" {
   depends_on = [
     google_cloud_run_service_iam_member.eventarc_trigger_invoker,
     google_project_iam_member.eventarc_eventreceiver,
+    google_storage_bucket_iam_member.eventarc_notifications,
   ]
 }
 
-# Allows the service accound used by Eventarc to receive events.
+# Allows the service account used by Eventarc to receive events.
 resource "google_project_iam_member" "eventarc_eventreceiver" {
   count = length(local.eventarc_triggers) > 0 ? 1 : 0
 
@@ -86,4 +97,13 @@ resource "google_cloud_run_service_iam_member" "eventarc_trigger_invoker" {
   location = google_cloud_run_v2_service.service.location
   role     = "roles/run.invoker"
   member   = "serviceAccount:${google_service_account.eventarc_trigger_invoker[0].email}"
+}
+
+# Grants Eventarc the necessary permissions to configure Cloud Storage bucket notifications.
+resource "google_storage_bucket_iam_member" "eventarc_notifications" {
+  for_each = local.eventarc_triggers_storage_buckets
+
+  bucket = each.key
+  role   = "roles/storage.bucketViewer"
+  member = "serviceAccount:${google_service_account.eventarc_trigger_invoker[0].email}"
 }
