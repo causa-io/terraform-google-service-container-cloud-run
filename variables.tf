@@ -117,6 +117,42 @@ variable "pubsub_triggers_maximum_backoff" {
   default     = null
 }
 
+variable "cron_triggers_retry_count" {
+  type        = number
+  description = "The number of retry attempts for cron triggers. Defaults to the `google.scheduler.retryCount` configuration, or `0`."
+  default     = null
+}
+
+variable "cron_triggers_max_retry_duration" {
+  type        = string
+  description = "The maximum duration for retrying cron triggers. Defaults to the `google.scheduler.maxRetryDuration` configuration, or `0s` (unlimited)."
+  default     = null
+}
+
+variable "cron_triggers_min_backoff_duration" {
+  type        = string
+  description = "The minimum backoff duration for cron triggers. Defaults to the `google.scheduler.minBackoffDuration` configuration, or `5s`."
+  default     = null
+}
+
+variable "cron_triggers_max_backoff_duration" {
+  type        = string
+  description = "The maximum backoff duration for cron triggers. Defaults to the `google.scheduler.maxBackoffDuration` configuration, or `3600s`."
+  default     = null
+}
+
+variable "cron_triggers_max_doublings" {
+  type        = number
+  description = "The maximum number of times the backoff interval is doubled for cron triggers. Defaults to the `google.scheduler.maxDoublings` configuration, or `5`."
+  default     = null
+}
+
+variable "cron_triggers_attempt_deadline" {
+  type        = string
+  description = "The deadline for job attempts for cron triggers. Defaults to the `google.scheduler.attemptDeadline` configuration."
+  default     = null
+}
+
 variable "ingress" {
   type        = string
   description = "The type of allowed ingress that can reach the container. Can be `INGRESS_TRAFFIC_ALL`, `INGRESS_TRAFFIC_INTERNAL_ONLY`, or `INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER`. Defaults to the `google.cloudRun.ingress` configuration, or `INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER`."
@@ -216,6 +252,12 @@ variable "enable_tasks_triggers" {
 variable "enable_eventarc_triggers" {
   type        = bool
   description = "Whether Eventarc triggers for the service should be configured. Defaults to `enable_triggers`."
+  default     = null
+}
+
+variable "enable_cron_triggers" {
+  type        = bool
+  description = "Whether cron triggers for the service should be configured. Defaults to `enable_triggers`."
   default     = null
 }
 

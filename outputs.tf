@@ -28,6 +28,11 @@ output "tasks_queues" {
   value       = { for name, queue in google_cloud_tasks_queue.queues : name => queue.id }
 }
 
+output "cron_jobs" {
+  description = "The IDs of Cloud Scheduler jobs created by the module for cron triggers defined in the configuration."
+  value       = { for name, job in google_cloud_scheduler_job.triggers : name => job.id }
+}
+
 output "routes" {
   value = {
     paths                  = var.enable_public_http_endpoints ? local.conf_http_endpoints : []
