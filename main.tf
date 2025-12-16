@@ -38,6 +38,13 @@ locals {
   conf_pubsub                        = try(local.conf_google.pubSub, tomap({}))
   conf_pubsub_minimum_backoff        = try(local.conf_pubsub.minimumBackoff, null)
   conf_pubsub_maximum_backoff        = try(local.conf_pubsub.maximumBackoff, null)
+  conf_scheduler                     = try(local.conf_google.scheduler, tomap({}))
+  conf_scheduler_retry_count         = try(local.conf_scheduler.retryCount, null)
+  conf_scheduler_max_retry_duration  = try(local.conf_scheduler.maxRetryDuration, null)
+  conf_scheduler_min_backoff         = try(local.conf_scheduler.minBackoffDuration, null)
+  conf_scheduler_max_backoff         = try(local.conf_scheduler.maxBackoffDuration, null)
+  conf_scheduler_max_doublings       = try(local.conf_scheduler.maxDoublings, null)
+  conf_scheduler_attempt_deadline    = try(local.conf_scheduler.attemptDeadline, null)
   conf_google_load_balancing         = try(local.conf_google.loadBalancing, tomap({}))
   conf_custom_request_headers        = try(local.conf_google_load_balancing.customRequestHeaders, toset([]))
 
@@ -70,13 +77,19 @@ locals {
     local.conf_environment_variables,
     var.environment_variables
   )
-  secret_environment_variables    = merge(local.conf_secret_environment_variables, var.secret_environment_variables)
-  ingress                         = coalesce(var.ingress, local.conf_ingress, "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER")
-  vpc_connector_name              = try(coalesce(var.vpc_connector_name, local.conf_vpc_connector_name), null)
-  vpc_connector_egress_settings   = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "ALL_TRAFFIC")
-  pubsub_triggers_minimum_backoff = coalesce(var.pubsub_triggers_minimum_backoff, local.conf_pubsub_minimum_backoff, "10s")
-  pubsub_triggers_maximum_backoff = coalesce(var.pubsub_triggers_maximum_backoff, local.conf_pubsub_maximum_backoff, "600s")
-  triggers                        = merge(local.conf_triggers, var.triggers)
+  secret_environment_variables       = merge(local.conf_secret_environment_variables, var.secret_environment_variables)
+  ingress                            = coalesce(var.ingress, local.conf_ingress, "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER")
+  vpc_connector_name                 = try(coalesce(var.vpc_connector_name, local.conf_vpc_connector_name), null)
+  vpc_connector_egress_settings      = coalesce(var.vpc_connector_egress_settings, local.conf_vpc_connector_egress_settings, "ALL_TRAFFIC")
+  pubsub_triggers_minimum_backoff    = coalesce(var.pubsub_triggers_minimum_backoff, local.conf_pubsub_minimum_backoff, "10s")
+  pubsub_triggers_maximum_backoff    = coalesce(var.pubsub_triggers_maximum_backoff, local.conf_pubsub_maximum_backoff, "600s")
+  cron_triggers_retry_count          = try(coalesce(var.cron_triggers_retry_count, local.conf_scheduler_retry_count), 0)
+  cron_triggers_max_retry_duration   = coalesce(var.cron_triggers_max_retry_duration, local.conf_scheduler_max_retry_duration, "0s")
+  cron_triggers_min_backoff_duration = coalesce(var.cron_triggers_min_backoff_duration, local.conf_scheduler_min_backoff, "5s")
+  cron_triggers_max_backoff_duration = coalesce(var.cron_triggers_max_backoff_duration, local.conf_scheduler_max_backoff, "3600s")
+  cron_triggers_max_doublings        = try(coalesce(var.cron_triggers_max_doublings, local.conf_scheduler_max_doublings), 5)
+  cron_triggers_attempt_deadline     = try(coalesce(var.cron_triggers_attempt_deadline, local.conf_scheduler_attempt_deadline), null)
+  triggers                           = merge(local.conf_triggers, var.triggers)
 
   # Permissions.
   set_firestore_permissions = coalesce(var.set_firestore_permissions, var.set_iam_permissions)
@@ -89,6 +102,7 @@ locals {
   enable_pubsub_triggers   = coalesce(var.enable_pubsub_triggers, var.enable_triggers)
   enable_tasks_triggers    = coalesce(var.enable_tasks_triggers, var.enable_triggers)
   enable_eventarc_triggers = coalesce(var.enable_eventarc_triggers, var.enable_triggers)
+  enable_cron_triggers     = coalesce(var.enable_cron_triggers, var.enable_triggers)
 }
 
 data "google_project" "project" {

@@ -113,3 +113,39 @@ serviceContainer:
             operator: match-path-pattern # The operator can optionally be set as well.
             value: myCollection/{documentId=*}
 ```
+
+### Cron triggers (Cloud Scheduler)
+
+This module can manage Cloud Scheduler jobs that periodically call HTTP endpoints on the service. The `enable_[cron_]triggers` variable should be set to `true`.
+
+For each trigger with `type: cron` or `type: google.scheduler`, a Cloud Scheduler job will be created. The job will make authenticated HTTP POST requests to the configured endpoint. Here is an example configuration:
+
+```yaml
+serviceContainer:
+  triggers:
+    myCronJob:
+      type: cron
+      schedule: 0 * * * * # Required.
+      timezone: America/New_York # Optional. Defaults to UTC.
+      endpoint:
+        type: http
+        path: /cron/my-job
+      google.scheduler:
+        # All retry parameters are optional.
+        retryCount: 3
+        maxRetryDuration: 0s
+        minBackoffDuration: 5s
+        maxBackoffDuration: 3600s
+        maxDoublings: 5
+        attemptDeadline: 180s
+
+# Default values for all cron triggers.
+google:
+  scheduler:
+    retryCount: 0
+    maxRetryDuration: 0s
+    minBackoffDuration: 5s
+    maxBackoffDuration: 3600s
+    maxDoublings: 5
+    attemptDeadline: 180s
+```
