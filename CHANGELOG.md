@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.20.0 (2025-12-16)
+
 Features:
 
 - Support `cron` and `google.scheduler` triggers using Cloud Scheduler HTTP jobs.
