@@ -2,7 +2,15 @@
 
 ## Unreleased
 
-## v0.20.1 (2026-01-13)
+Breaking changes:
+
+- Require `google` Terraform provider version `>= 7.0.0`.
+
+Fixes:
+
+- Force the `AUTOMATIC` scaling mode.
+
+## v0.21.0 (2026-01-13)
 
 Breaking changes:
 
