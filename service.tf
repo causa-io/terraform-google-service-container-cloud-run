@@ -19,6 +19,11 @@ resource "google_cloud_run_v2_service" "service" {
 
   ingress = local.ingress
 
+  scaling {
+    min_instance_count = local.min_instances
+    max_instance_count = local.max_instances
+  }
+
   template {
     containers {
       image = local.image
@@ -84,11 +89,6 @@ resource "google_cloud_run_v2_service" "service" {
     timeout                          = local.timeout
     max_instance_request_concurrency = local.request_concurrency
     service_account                  = local.service_account_email
-
-    scaling {
-      min_instance_count = local.min_instances
-      max_instance_count = local.max_instances
-    }
 
     dynamic "vpc_access" {
       for_each = local.vpc_connector_full_name != null ? ["access"] : []
