@@ -5,6 +5,7 @@
 Breaking changes:
 
 - Use the possibly overridden (by the Terraform variable) service name when creating the main service account.
+- Configure scaling at the service level rather than revision level.
 
 Fixes:
 
