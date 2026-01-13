@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.20.1 (2026-01-13)
+
 Breaking changes:
 
 - Use the possibly overridden (by the Terraform variable) service name when creating the main service account.
