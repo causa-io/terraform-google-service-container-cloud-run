@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Breaking changes:
+
+- Use the possibly overridden (by the Terraform variable) service name when creating the main service account.
+
+Fixes:
+
+- Ensure service account names don't exceed the maximum length (30 characters).
+
 ## v0.20.0 (2025-12-16)
 
 Features:

@@ -35,7 +35,7 @@ resource "google_service_account" "eventarc_trigger_invoker" {
   count = length(local.eventarc_triggers) > 0 ? 1 : 0
 
   project      = local.gcp_project_id
-  account_id   = "${local.service_name}-eventarc"
+  account_id   = substr("${local.service_name}-eventarc", 0, 30)
   display_name = "${local.service_name} Eventarc triggers invoker"
   description  = "The service account used by Eventarc to invoke the Cloud Run ${local.service_name} service's triggers."
 }

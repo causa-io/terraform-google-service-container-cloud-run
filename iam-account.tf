@@ -7,7 +7,7 @@ resource "google_service_account" "service" {
   count = var.service_account != null ? 0 : 1
 
   project      = local.gcp_project_id
-  account_id   = local.conf_project_name
-  display_name = "${local.conf_project_name} Cloud Run service"
-  description  = "The service account used by Cloud Run for the ${local.conf_project_name} service."
+  account_id   = substr(local.service_name, 0, 30)
+  display_name = "${local.service_name} Cloud Run service"
+  description  = "The service account used by Cloud Run for the ${local.service_name} service."
 }

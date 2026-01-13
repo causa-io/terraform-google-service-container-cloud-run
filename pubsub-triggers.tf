@@ -49,7 +49,7 @@ resource "google_service_account" "pubsub_trigger_invoker" {
   count = length(local.pubsub_triggers) > 0 ? 1 : 0
 
   project      = local.gcp_project_id
-  account_id   = "${local.service_name}-pubsub"
+  account_id   = substr("${local.service_name}-pubsub", 0, 30)
   display_name = "${local.service_name} Pub/Sub triggers invoker"
   description  = "The service account used by Pub/Sub to invoke the Cloud Run ${local.service_name} service's triggers."
 }
