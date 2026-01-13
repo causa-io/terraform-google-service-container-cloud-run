@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.21.1 (2026-01-13)
+
 Breaking changes:
 
 - Require `google` Terraform provider version `>= 7.0.0`.
