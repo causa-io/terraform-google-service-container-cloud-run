@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.21.2 (2026-01-21)
+
 Fixes:
 
 - Add back scaling at the revision level (in addition to service level) to ensure Cloud Run enforces the scaling configuration coherently.
