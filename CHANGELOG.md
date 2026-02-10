@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Support the `task` and `google.tasks` event types in replacement of `google.task`, which is now deprecated.
+
 ## v0.21.2 (2026-01-21)
 
 Fixes:
