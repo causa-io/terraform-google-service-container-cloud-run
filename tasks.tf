@@ -4,7 +4,7 @@ locals {
   tasks_triggers = local.enable_tasks_triggers ? {
     for key, value in local.triggers :
     key => value
-    if try(value.type, null) == "google.task" && try(value.endpoint.type, null) == "http"
+    if contains(["task", "google.task", "google.tasks"], try(value.type, null)) && try(value.endpoint.type, null) == "http"
   } : {}
 
   # The set of queue names obtained from Cloud Tasks triggers.
