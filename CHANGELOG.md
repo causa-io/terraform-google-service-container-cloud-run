@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.23.0 (2026-03-09)
+
 Features:
 
 - Make the project and version optional when referencing secrets in `secret_environment_variables`, defaulting to the current GCP project and `latest`.
