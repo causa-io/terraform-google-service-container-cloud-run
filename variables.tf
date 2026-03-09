@@ -53,7 +53,7 @@ variable "environment_variables" {
 
 variable "secret_environment_variables" {
   type        = map(string)
-  description = "A map where keys are the name of environment variables, and values are secret versions IDs (e.g. `projects/*/secrets/*/versions/*`). This will be merged with the `google.cloudRun.secretEnvironmentVariables` configuration."
+  description = "A map where keys are the name of environment variables, and values reference secrets. Accepted formats: `my-secret`, `projects/my-project/secrets/my-secret`, `my-secret/versions/3`, or `projects/my-project/secrets/my-secret/versions/3`. The project defaults to the current GCP project and the version defaults to `latest`. This will be merged with the `google.cloudRun.secretEnvironmentVariables` configuration."
   default     = {}
 }
 

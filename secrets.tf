@@ -1,7 +1,14 @@
 locals {
+  secret_refs = {
+    for key, secret_ref in local.secret_environment_variables : key =>
+    regex("^(?:projects\\/(?P<project>[\\w-]+)\\/secrets\\/)?(?P<secret>[\\w-]+)(?:\\/versions\\/(?P<version>latest|\\d+))?$", secret_ref)
+  }
+
   secrets = {
-    for key, secret_path in local.secret_environment_variables : key =>
-    regex("(?P<id>projects\\/[\\w-]+\\/secrets\\/[\\w-]+)\\/versions\\/(?P<version>latest|\\d+)", secret_path)
+    for key, matches in local.secret_refs : key => {
+      id      = "projects/${coalesce(matches.project, local.gcp_project_id)}/secrets/${matches.secret}"
+      version = coalesce(matches.version, "latest")
+    }
   }
 }
 
