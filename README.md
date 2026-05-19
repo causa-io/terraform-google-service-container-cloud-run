@@ -30,6 +30,21 @@ The main resource managed by this module is the Cloud Run service itself, for wh
 
 By default, the Cloud Run service cannot be accessed publicly. To allow unauthenticated requests (as in, not using IAM) to the service, set `enable_public_http_endpoints` to `true`. This will also populate the `public_http_endpoints` output, which will contain the `serviceContainer.endpoints.http` configuration from `causa.yaml` and can be used as input for setting up a load balancer.
 
+### Health checks
+
+Startup and liveness HTTP probes are configured through `serviceContainer.healthCheck`. By default, both probes are enabled with `path: /health` and the provider's default timing values. Each block accepts `path`, `initialDelay`, `period`, `timeout`, and `failureThreshold`. Setting `healthCheck.startup` or `healthCheck.liveness` to `null` disables the corresponding probe; setting `healthCheck` itself to `null` disables both.
+
+```yaml
+serviceContainer:
+  healthCheck:
+    startup:
+      path: /health/startup
+      period: 5
+      failureThreshold: 10
+    liveness:
+      path: /health
+```
+
 ### IAM permissions
 
 Based on the `causa.yaml` configuration, this module can also manage required permissions for the service. This includes:
