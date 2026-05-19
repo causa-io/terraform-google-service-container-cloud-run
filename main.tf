@@ -18,6 +18,25 @@ locals {
   conf_min_instances         = try(local.conf_service_container.minInstances, null)
   conf_max_instances         = try(local.conf_service_container.maxInstances, null)
 
+  conf_healthcheck          = try(local.conf_service_container.healthCheck, {})
+  conf_healthcheck_startup  = local.conf_healthcheck == null ? null : try(local.conf_healthcheck.startup, {})
+  conf_healthcheck_liveness = local.conf_healthcheck == null ? null : try(local.conf_healthcheck.liveness, {})
+
+  startup_probe = local.conf_healthcheck_startup == null ? null : {
+    path              = try(local.conf_healthcheck_startup.path, "/health")
+    initial_delay     = try(local.conf_healthcheck_startup.initialDelay, null)
+    period            = try(local.conf_healthcheck_startup.period, null)
+    timeout           = try(local.conf_healthcheck_startup.timeout, null)
+    failure_threshold = try(local.conf_healthcheck_startup.failureThreshold, null)
+  }
+  liveness_probe = local.conf_healthcheck_liveness == null ? null : {
+    path              = try(local.conf_healthcheck_liveness.path, "/health")
+    initial_delay     = try(local.conf_healthcheck_liveness.initialDelay, null)
+    period            = try(local.conf_healthcheck_liveness.period, null)
+    timeout           = try(local.conf_healthcheck_liveness.timeout, null)
+    failure_threshold = try(local.conf_healthcheck_liveness.failureThreshold, null)
+  }
+
   conf_outputs              = try(local.conf_service_container.outputs, tomap({}))
   conf_event_topics_outputs = try(local.conf_outputs.eventTopics, [])
   conf_firestore_outputs    = try(local.conf_outputs["google.firestore"], [])
@@ -69,7 +88,6 @@ locals {
   startup_cpu_boost      = coalesce(var.startup_cpu_boost, local.conf_startup_cpu_boost, false)
   timeout                = try(coalesce(var.timeout, local.conf_timeout), null)
   request_concurrency    = try(coalesce(var.request_concurrency, local.conf_request_concurrency), null)
-  healthcheck_endpoint   = var.healthcheck_endpoint
   environment_variables = merge(
     local.pubsub_environment_variables,
     local.spanner_environment_variables,
