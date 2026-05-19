@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.24.0 (2026-05-19)
+
 Breaking changes:
 
 - Remove the `healthcheck_endpoint` variable. Health checks are now configured exclusively through the `serviceContainer.healthCheck` configuration.
