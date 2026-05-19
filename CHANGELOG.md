@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Breaking changes:
+
+- Remove the `healthcheck_endpoint` variable. Health checks are now configured exclusively through the `serviceContainer.healthCheck` configuration.
+
+Features:
+
+- Add the `serviceContainer.healthCheck` configuration, with independent `startup` and `liveness` blocks supporting `path`, `initialDelay`, `period`, `timeout`, and `failureThreshold`. Setting `healthCheck`, `healthCheck.startup`, or `healthCheck.liveness` to `null` disables the corresponding probe(s).
+
 ## v0.23.0 (2026-03-09)
 
 Features:

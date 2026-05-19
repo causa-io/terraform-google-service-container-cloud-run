@@ -65,24 +65,32 @@ resource "google_cloud_run_v2_service" "service" {
       }
 
       dynamic "startup_probe" {
-        for_each = local.healthcheck_endpoint != null ? ["probe"] : []
+        for_each = local.startup_probe != null ? [local.startup_probe] : []
         iterator = probe
 
         content {
           http_get {
-            path = local.healthcheck_endpoint
+            path = probe.value.path
           }
+          initial_delay_seconds = probe.value.initial_delay
+          period_seconds        = probe.value.period
+          timeout_seconds       = probe.value.timeout
+          failure_threshold     = probe.value.failure_threshold
         }
       }
 
       dynamic "liveness_probe" {
-        for_each = local.healthcheck_endpoint != null ? ["probe"] : []
+        for_each = local.liveness_probe != null ? [local.liveness_probe] : []
         iterator = probe
 
         content {
           http_get {
-            path = local.healthcheck_endpoint
+            path = probe.value.path
           }
+          initial_delay_seconds = probe.value.initial_delay
+          period_seconds        = probe.value.period
+          timeout_seconds       = probe.value.timeout
+          failure_threshold     = probe.value.failure_threshold
         }
       }
     }
