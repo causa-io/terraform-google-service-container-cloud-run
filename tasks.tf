@@ -3,7 +3,16 @@ locals {
   # with a valid (HTTP) endpoint.
   tasks_triggers = local.enable_tasks_triggers ? {
     for key, value in local.triggers :
-    key => value
+    key => {
+      queue              = value.queue
+      endpoint_path      = value.endpoint.path
+      paused             = try(value.enabled, true) == false
+      max_attempts       = try(value.retryPolicy.maxAttempts, -1)
+      max_retry_duration = try(value.retryPolicy.maxRetryDuration, "0s")
+      min_backoff        = try(value.retryPolicy.minBackoff, "1s")
+      max_backoff        = try(value.retryPolicy.maxBackoff, "60s")
+      max_doublings      = try(value.retryPolicy.maxDoublings, 16)
+    }
     if contains(["task", "google.task", "google.tasks"], try(value.type, null)) && try(value.endpoint.type, null) == "http"
   } : {}
 
@@ -45,6 +54,8 @@ resource "google_cloud_tasks_queue" "queues" {
   location = local.location
   name     = local.tasks_queue_names[each.key]
 
+  desired_state = each.value.paused ? "PAUSED" : "RUNNING"
+
   # This configuration avoids having to pass the service's URI to itself when creating new tasks (at runtime).
   # This is especially useful because the service's URI is not known until the service is created, which makes it hard
   # to "inject" into the service. Configuring the URI at the task level allows the service to create tasks without
@@ -57,7 +68,7 @@ resource "google_cloud_tasks_queue" "queues" {
       host   = replace(google_cloud_run_v2_service.service.uri, "/^https:\\/\\//", "")
 
       path_override {
-        path = each.value.endpoint.path
+        path = each.value.endpoint_path
       }
 
       uri_override_enforce_mode = "ALWAYS"
@@ -70,11 +81,11 @@ resource "google_cloud_tasks_queue" "queues" {
   }
 
   retry_config {
-    max_attempts       = try(each.value.retryPolicy.maxAttempts, -1)
-    max_retry_duration = try(each.value.retryPolicy.maxRetryDuration, "0s")
-    min_backoff        = try(each.value.retryPolicy.minBackoff, "1s")
-    max_backoff        = try(each.value.retryPolicy.maxBackoff, "60s")
-    max_doublings      = try(each.value.retryPolicy.maxDoublings, 16)
+    max_attempts       = each.value.max_attempts
+    max_retry_duration = each.value.max_retry_duration
+    min_backoff        = each.value.min_backoff
+    max_backoff        = each.value.max_backoff
+    max_doublings      = each.value.max_doublings
   }
 
   stackdriver_logging_config {
