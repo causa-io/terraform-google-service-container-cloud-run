@@ -4,6 +4,7 @@ locals {
   cron_triggers = local.enable_cron_triggers ? {
     for key, value in local.triggers :
     key => {
+      paused               = try(value.enabled, true) == false
       schedule             = value.schedule
       timezone             = try(value.timezone, null)
       endpoint_path        = value.endpoint.path
@@ -48,6 +49,7 @@ resource "google_cloud_scheduler_job" "triggers" {
   description = "Cron trigger '${each.key}' for the Cloud Run ${local.service_name} service."
   schedule    = each.value.schedule
   time_zone   = each.value.timezone
+  paused      = each.value.paused
 
   http_target {
     uri         = "${google_cloud_run_v2_service.service.uri}${each.value.endpoint_path}"

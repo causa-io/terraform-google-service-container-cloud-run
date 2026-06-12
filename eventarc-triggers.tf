@@ -16,7 +16,7 @@ locals {
         }
       ]
     }
-    if try(value.type, null) == "google.eventarc" && try(value.endpoint.type, null) == "http"
+    if try(value.type, null) == "google.eventarc" && try(value.endpoint.type, null) == "http" && try(value.enabled, true) != false
   } : {}
 
   # The set of GCS buckets referenced by Eventarc triggers. Used to configure IAM permissions.

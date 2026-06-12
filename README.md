@@ -57,6 +57,28 @@ Based on the `causa.yaml` configuration, this module can also manage required pe
 
 Automatic definition of IAM permissions can be disabled by setting the `set_*_permissions` variables to `false`.
 
+### Disabling a trigger
+
+Any trigger can be disabled by setting its `enabled` property to `false`:
+
+```yaml
+serviceContainer:
+  triggers:
+    myTrigger:
+      enabled: false
+      type: event
+      topic: my-pubsub-topic
+      endpoint:
+        type: http
+        path: /service/http/route
+```
+
+How a disabled trigger is handled depends on what its underlying resource supports, so that disabling is reversible without destroying state where possible:
+
+- **Cloud Tasks** triggers keep their queue (and `TASKS_QUEUE_*` environment variable), but the queue is paused (`desired_state = "PAUSED"`) so tasks are no longer dispatched. The service can still enqueue tasks.
+- **Cron** triggers keep their Cloud Scheduler job, but it is paused (`paused = true`) so it no longer runs.
+- **Pub/Sub** and **Eventarc** triggers have no paused state, so a disabled trigger is simply not created.
+
 ### Pub/Sub triggers
 
 This module can also create and configure Pub/Sub push subscriptions for all event triggers defined in `serviceContainer.triggers`. For this, set the `enable_[pubsub_]triggers` variable to `true`.
