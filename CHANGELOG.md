@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v1.0.0 (2026-06-12)
+
 Features:
 
 - Support the `enabled` boolean on any trigger. When set to `false`, the trigger is paused where its resource supports it (Cloud Tasks queues via `desired_state`, Cloud Scheduler jobs via `paused`) and removed otherwise (Pub/Sub, Eventarc).
