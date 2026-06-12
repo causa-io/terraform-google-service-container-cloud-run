@@ -6,6 +6,10 @@ Features:
 
 - Support the `enabled` boolean on any trigger. When set to `false`, the trigger is paused where its resource supports it (Cloud Tasks queues via `desired_state`, Cloud Scheduler jobs via `paused`) and removed otherwise (Pub/Sub, Eventarc).
 
+Fixes:
+
+- Avoid spurious diffs on the Cloud Run service caused by console or CLI deployments, by ignoring changes to the `client` and `client_version` attributes and setting a fixed container name.
+
 ## v0.24.0 (2026-05-19)
 
 Breaking changes:

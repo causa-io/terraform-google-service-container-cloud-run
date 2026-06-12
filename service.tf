@@ -27,6 +27,7 @@ resource "google_cloud_run_v2_service" "service" {
 
   template {
     containers {
+      name  = "service"
       image = local.image
 
       resources {
@@ -123,4 +124,11 @@ resource "google_cloud_run_v2_service" "service" {
     google_secret_manager_secret_iam_member.service_secrets,
     google_project_iam_member.service_monitoring_metric_writer,
   ]
+
+  lifecycle {
+    ignore_changes = [
+      client,
+      client_version,
+    ]
+  }
 }
