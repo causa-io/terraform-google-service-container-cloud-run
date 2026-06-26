@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Pass the Cloud Run service `timeout` to Terraform as a duration string (`<seconds>s`) rather than a bare number.
+
 ## v1.0.0 (2026-06-12)
 
 Features:
