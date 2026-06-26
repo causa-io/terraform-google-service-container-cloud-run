@@ -96,7 +96,7 @@ resource "google_cloud_run_v2_service" "service" {
       }
     }
 
-    timeout                          = local.timeout
+    timeout                          = local.timeout != null ? "${local.timeout}s" : null
     max_instance_request_concurrency = local.request_concurrency
     service_account                  = local.service_account_email
 
