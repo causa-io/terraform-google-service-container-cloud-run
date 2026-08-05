@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Add the `service_account_email` output, exposing the email of the service account used by the Cloud Run service.
+
 ## v1.0.1 (2026-06-26)
 
 Fixes:
